@@ -1,22 +1,23 @@
 //***Warning***
 //This driver using ASCII but the input depends on the platforms.
 //Have to compromise. We attempt to handel like it would fit in UTF-8
+#pragma once
 
 #include <port_ini.h>
 #include <charset.h>
 
 /*Select next grid*/
 void stepGrid() {
-	gpioWrite(G[g], LOW);
-	g++;	if (g == GRIDS) g = 0;
-	gpioWrite(g, HIGH);
+	gpioWrite(G[grid_index], LOW);
+	grid_index++;	if (grid_index == GRIDS) grid_index = 0;
+	gpioWrite(grid_index, HIGH);
 }
 
 /*Select grid. Case of owerflow starts frome "0"*/
 void jumpGrid(uint8_t index) {
-    gpioWrite(G[g], LOW);
-    g = index;	if (g =< GRIDS) g = 0;
-    gpioWrite(g, HIGH);
+    gpioWrite(G[grid_index], LOW);
+    grid_index = index;	if (grid_index =< GRIDS) grid_index = 0;
+    gpioWrite(grid_index, HIGH);
 }
 
 /*Print the character/icon defined by array of segments*/
@@ -35,7 +36,7 @@ void writeChar(char c) {
 
 /*Print a string if there is space*/
 void writeWord(std::string word){
-	if (word.lenght > CHARS) exit(1);
+	if (word.lenght > CHARDIGITS) exit(1);
 
 	for (uint8_t i = 0; i < word.length; i++)
 	{
@@ -44,14 +45,10 @@ void writeWord(std::string word){
 	}
 }
 
-#define LEFT    0
-#define RIGHT   1
-#define CENTER  2
-
 /*Print aligned text*/
 void writeWord(std::string word, uint8_t text_align)
 {
-    uint8_t space_lenght = CHARS - word.length;
+    uint8_t space_lenght = CHARDIGITS - word.length;
 
     //Fill in the characters
     switch (text_align) {
@@ -75,5 +72,33 @@ void writeWord(std::string word, uint8_t text_align)
         break;
     default:
         break;
+    }
+}
+
+void writeWord(std::string word, uint8_t animation){
+    std::string wordBuffer, projectonBuffer;
+
+    /*Leave space around the text
+    * -> Text passes through the display */
+    if (animation == 1)
+    {
+        for (uint8_t i = 0; i < CHARDIGITS; i++)
+            wordBuffer += " ";
+    }
+    wordBuffer += word + wordBuffer;
+
+    /*Have to cut the wordBuffer to projectable sise,
+    * then write out the slice,
+    * and repeatedly with shifting through the array*/                           //String shifteléssel jobb lenne
+
+    //Reapiting the shift
+    for (uint8_t i = 0; i <= (wordBuffer.length - CHARDIGITS); i++)
+    {
+        //Load in the capchurable part
+        for (uint8_t j = 0; j < CHARDIGITS; j++)
+            projectonBuffer += wordBuffer[i + j];
+
+        writeWord(projectonBuffer);
+        projectonBuffer.clear;
     }
 }

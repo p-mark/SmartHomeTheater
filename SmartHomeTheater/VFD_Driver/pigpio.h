@@ -23,6 +23,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org/>
 */
+#pragma once
 
 #ifndef PIGPIO_H
 #define PIGPIO_H
