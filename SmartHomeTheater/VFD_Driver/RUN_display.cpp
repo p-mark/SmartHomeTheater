@@ -1,7 +1,10 @@
 #include <print.cpp>
 
-int main() {
+VFD Display;    
+    
+int main() 
+{
     SPEAKER_SUB = ON;
-    Print("Tiszavirag kemping");
+    Display.Print("Tiszavirag kemping");
     return 0;
 }

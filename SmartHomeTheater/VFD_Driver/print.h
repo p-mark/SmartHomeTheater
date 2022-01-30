@@ -1,70 +1,72 @@
-//***Warning***
-//This driver using ASCII but the input depends on the platforms.
-//Have to compromise. We attempt to handel like it would fit in UTF-8
 #pragma once
 
 #include <port_ini.h>
 #include <charset.h>
 
-/*Select next grid*/
-void stepGrid() {
-	gpioWrite(G[grid_index], LOW);
-	grid_index++;	if (grid_index == GRIDS) grid_index = 0;
-	gpioWrite(G[grid_index], HIGH);
-}
-
+class display{
 /*Select grid. Case of owerflow back to "0"*/
-void jumpGrid(uint8_t index) {
+public: void jumpGrid(uint8_t index) {
     gpioWrite(G[grid_index], LOW);
     grid_index = index;	if (grid_index >= GRIDS) grid_index = 0;
     gpioWrite(G[grid_index], HIGH);
 }
 
+/*Select next grid*/
+static void stepGrid() {
+	gpioWrite(G[grid_index], LOW);
+	grid_index++;	if (grid_index == GRIDS) grid_index = 0;
+	gpioWrite(G[grid_index], HIGH);
+}
+
 /*Print the character/icon defined by array of segments*/
-void writeGrid(bool[SEGMENTS] character)
+void writeGrid(bool character[SEGMENTS])
 {
 	for (uint8_t i = 0; i < SEGMENTS; i++)
 		gpioWrite(S[i], character[i]);
 }
 
+private:
 /*Transition betwen char and grid*/
 void writeChar(char c) {
 	c -= 33;
-    if (c > DIGIT.lenght)
-        writeGrid(DIGIT[95]);
-        break;
-	writeGrid(DIGIT[c]);
+    (c < 96) ? writeGrid(DIGIT[c]) : writeGrid(DIGIT[95]);	
 }
 
 /*Print a string if there is space*/
 void writeWord(std::string word){
-	if (word.lenght > CHARDIGITS) exit(1);
+	if (word.length() > CHARDIGITS) exit(1);
 
-	for (uint8_t i = 0; i < word.length; i++)
+	for (uint8_t i = 0; i < word.length(); i++)
 	{
 		writeChar(word[i]);
 		stepGrid();
 	}
 }
 
+public:
 /*Print aligned text*/
 void writeWord_Aligned(std::string word, uint8_t text_align)
 {
-    uint8_t space_lenght = CHARDIGITS - word.length;
+    uint8_t space_lenght = CHARDIGITS - word.length();
 
     //Fill in the characters
     switch (text_align) {
     case LEFT:
+    {
         writeWord(word);
         for (uint8_t i = 0; i < space_lenght; i++)
             stepGrid();
         break;
+    }
     case RIGHT:
+    {
         for (uint8_t i = 0; i < space_lenght; i++)
             stepGrid();
         writeWord(word);
         break;
+    }
     case CENTER:
+    {
         std::string space = "";
         for (uint8_t i = 0; i < (space_lenght / 2); i++)
             space += " ";
@@ -72,6 +74,7 @@ void writeWord_Aligned(std::string word, uint8_t text_align)
         if(space_lenght % 2 != 0)
             stepGrid();
         break;
+    }
     default:
         std::string space = "";
         for (uint8_t i = 0; i < (space_lenght / 2); i++)
@@ -97,13 +100,14 @@ void writeWord_Animated(std::string word, uint8_t animation){
     wordBuffer += word + wordBuffer;
 
     //Reapiting with shifting
-    for (uint8_t i = 0; i <= (wordBuffer.length - CHARDIGITS); i++)
+    for (uint8_t i = 0; i <= (wordBuffer.length() - CHARDIGITS); i++)
     {
         //Fill the projectonBuffer with the capchurable part
         for (uint8_t j = 0; j < CHARDIGITS; j++)
             projectonBuffer += wordBuffer[i + j];
 
         writeWord(projectonBuffer);
-        projectonBuffer.clear;
+        projectonBuffer.clear();
     }
 }
+};
