@@ -10,14 +10,14 @@
 void stepGrid() {
 	gpioWrite(G[grid_index], LOW);
 	grid_index++;	if (grid_index == GRIDS) grid_index = 0;
-	gpioWrite(grid_index, HIGH);
+	gpioWrite(G[grid_index], HIGH);
 }
 
-/*Select grid. Case of owerflow starts frome "0"*/
+/*Select grid. Case of owerflow back to "0"*/
 void jumpGrid(uint8_t index) {
     gpioWrite(G[grid_index], LOW);
-    grid_index = index;	if (grid_index =< GRIDS) grid_index = 0;
-    gpioWrite(grid_index, HIGH);
+    grid_index = index;	if (grid_index >= GRIDS) grid_index = 0;
+    gpioWrite(G[grid_index], HIGH);
 }
 
 /*Print the character/icon defined by array of segments*/
@@ -27,11 +27,13 @@ void writeGrid(bool[SEGMENTS] character)
 		gpioWrite(S[i], character[i]);
 }
 
-/*Transition betwen char and grid 
-(UTF-8* converted to ASCII)*/
+/*Transition betwen char and grid*/
 void writeChar(char c) {
 	c -= 33;
-	writeGrid(ASCII[c]);
+    if (c > DIGIT.lenght)
+        writeGrid(DIGIT[95]);
+        break;
+	writeGrid(DIGIT[c]);
 }
 
 /*Print a string if there is space*/
@@ -46,7 +48,7 @@ void writeWord(std::string word){
 }
 
 /*Print aligned text*/
-void writeWord(std::string word, uint8_t text_align)
+void writeWord_Aligned(std::string word, uint8_t text_align)
 {
     uint8_t space_lenght = CHARDIGITS - word.length;
 
@@ -71,30 +73,33 @@ void writeWord(std::string word, uint8_t text_align)
             stepGrid();
         break;
     default:
+        std::string space = "";
+        for (uint8_t i = 0; i < (space_lenght / 2); i++)
+            space += " ";
+        writeWord(space + "E:Align" + space);
+        if (space_lenght % 2 != 0)
+            stepGrid();
         break;
     }
 }
 
-void writeWord(std::string word, uint8_t animation){
+/*Have to cut the wordBuffer to projectable size,
+    * then write out the slice,
+    * and repeatedly with shifting through the array*/                           //String shifteléssel jobb lenne
+void writeWord_Animated(std::string word, uint8_t animation){
     std::string wordBuffer, projectonBuffer;
 
     /*Leave space around the text
     * -> Text passes through the display */
     if (animation == 1)
-    {
         for (uint8_t i = 0; i < CHARDIGITS; i++)
             wordBuffer += " ";
-    }
     wordBuffer += word + wordBuffer;
 
-    /*Have to cut the wordBuffer to projectable sise,
-    * then write out the slice,
-    * and repeatedly with shifting through the array*/                           //String shifteléssel jobb lenne
-
-    //Reapiting the shift
+    //Reapiting with shifting
     for (uint8_t i = 0; i <= (wordBuffer.length - CHARDIGITS); i++)
     {
-        //Load in the capchurable part
+        //Fill the projectonBuffer with the capchurable part
         for (uint8_t j = 0; j < CHARDIGITS; j++)
             projectonBuffer += wordBuffer[i + j];
 

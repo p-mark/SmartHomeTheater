@@ -1,6 +1,3 @@
-/*List of special icons*/
-//This list have to be manually updated to every specific type of displays
-
 #include <port_ini.h>
 
 #define ICON_GRIDS		(GRIDS - CHARDIGITS)
@@ -8,6 +5,8 @@
 #define ON				1
 #define OFF				0
 
+/*List of special icons*/
+//This list have to be manually updated to every specific type of displays
 #define SPEAKER_CENTER		display_icons[0][0]
 #define SPEAKER_FRONT_RIGHT display_icons[0][1]
 #define SPEAKER_RIGH		display_icons[0][2]
@@ -23,23 +22,6 @@
 #define DVD					display_icons[0][12]
 #define CD					display_icons[0][13]
 #define MP3					display_icons[0][14]
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define 
-#define
 
 /*Unique icons light status list
 * OFF by default	*/

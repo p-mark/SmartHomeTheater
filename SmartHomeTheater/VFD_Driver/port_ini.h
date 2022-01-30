@@ -15,14 +15,14 @@
 #define CENTER  2
 uint8_t grid_index = 0;
 
+/*Initialise Deamon*/
+if (gpioInitialise() < 0) exit(1);
+std::cout << "Deamon unicialised!" << std::endl;
 
 /*Define the wiring | Line up the ports*/
 uint8_t G[GRIDS] = {1,2,3,4,5,6,7,8,9,10,11,12};
 uint8_t S[SEGMENTS] = {21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36};
 
-/*Initialise Deamon*/
-if (gpioInitialise() < 0) exit(1);
-std::cout << "Deamon unicialised!" << std::endl;
 
 /*Set ports mode to output*/
 for (uint8_t i = 0; i < G.length; i++)
