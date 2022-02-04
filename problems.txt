@@ -1,6 +1,5 @@
--ellenőrizd az animáció shifteléses dolgot
--Muszáj feltölteni 0-val a icon listát? Alapból nem lesz az?
 -A charsetet fel kell tölteni rendesen
+-inicializálás nincs lefuttatva
 
 -Külön print functon arra az esetre ha char*[8] vagy valaminél hosszabb lenne a megadott string.
 Ha rövidebb akkor text align fixen írja ki a szöveget, ha hosszabb akkor az animáció irányát/fajtáját állíthatjuk vele.

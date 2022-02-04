@@ -1,10 +1,32 @@
+#include <thread>
 #include <print.cpp>
+#include <ui.h>
 
-VFD Display;    
+UI ui;
     
 int main() 
 {
     SPEAKER_SUB = ON;
-    Display.Print("Tiszavirag kemping");
-    return 0;
+    std::string input = "";
+    std::cout << "print --help for more information" << std::endl;
+
+    while (true)
+    {
+        std::cin >> input;
+
+        if ((input = "e") || (input = "exit"))
+        {
+            ui.flush();
+            return 0;
+        }
+        else if (input.find("--help"))
+        {
+            ui.help();
+        }
+        else if (input.find("print "))
+        {
+            ui.print(input);
+        }
+        else{std::cout << "Cannot recognise your command :( Maybe try --help";}
+    }
 }
