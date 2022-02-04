@@ -1,11 +1,12 @@
 #include <thread>
-#include <print.cpp>
 #include <ui.h>
 
 UI ui;
     
 int main() 
 {
+    ini::initialise();
+    
     SPEAKER_SUB = ON;
     std::string input = "";
     std::cout << "print --help for more information" << std::endl;
@@ -14,7 +15,7 @@ int main()
     {
         std::cin >> input;
 
-        if ((input = "e") || (input = "exit"))
+        if ((input == "e") || (input == "exit"))
         {
             ui.flush();
             return 0;

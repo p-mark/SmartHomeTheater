@@ -14,7 +14,7 @@ bool run = true;
 /*Build and project scene with preset icon states 
 and given propreties: animation, text alignment*/
 void Print(std::string word, uint8_t animate = OFF, uint8_t text_align = CENTER)
-{while(unchanged){
+{while(&run){
     //Starting with text
     screen.jumpGrid(CHARS_BEGIN);
     //Do we have to animate?

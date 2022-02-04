@@ -1,22 +1,24 @@
 #include <iostream>
 #include <print.cpp>
+#include <thread>
 
 VFD Display;
 
-std::thread display_thread(Print, "Hello Word!");
+std::thread display_thread(Display.Print, "Hello Word!");
 
 /*Basic user interface for terminal control*/
 class UI {
+	public:
 	/*Prints help for commands*/
 	void help() {
-		std::cout << 'print "message"\tWrites out the message to the display\n';
-		std::cout << '\t-a\tAnimate\n';
-		std::cout << '\t-c\tCenter\n';
-		std::cout << '\t-l\tLeft\n';
-		std::cout << '\t-r\tRight\n';
-		std::cout << '\t-c\tCenter\n';
-		std::cout << 'exit\tExit\n';
-		std::cout << '\te\tAlias exit\n';
+		std::cout << "print \"message\"\tWrites out the message to the display\n";
+		std::cout << "\t-a\tAnimate\n";
+		std::cout << "\t-c\tCenter\n";
+		std::cout << "\t-l\tLeft\n";
+		std::cout << "\t-r\tRight\n";
+		std::cout << "\t-c\tCenter\n";
+		std::cout << "exit\tExit\n";
+		std::cout << "\te\tAlias exit\n";
 	}
 	
 	/*Stop running display*/
@@ -39,33 +41,33 @@ class UI {
 			if (input.find(" -c "))
 			{
 				flush();
-				std::thread display_thread(Print,message,ON, CENTER);
+				std::thread display_thread(Display.Print,message,ON, CENTER);
 			}
 			else if (input.find(" -l "))
 			{
 				flush();
-				std::thread display_thread(Print,message,ON,LEFT,);
+				std::thread display_thread(Display.Print,message,ON,LEFT);
 			}
 			else if (input.find(" -r "))
 			{
 				flush();
-				std::thread display_thread(Print,message, ON, RIGHT,);
+				std::thread display_thread(Display.Print,message, ON, RIGHT);
 			}
 		}
 		else if (input.find(" -c "))
 		{
 			flush();
-			std::thread display_thread(Print,message, OFF, CENTER);
+			std::thread display_thread(Display.Print,message, OFF, CENTER);
 		}
 		else if(input.find(" -l "))
 		{
 			flush();
-			std::thread display_thread(Print,message, OFF, LEFT);
+			std::thread display_thread(Display.Print,message, OFF, LEFT);
 		}
 		else if (input.find(" -r "))
 		{
 			flush();
-			std::thread display_thread(Print,message, OFF, RIGHT);
+			std::thread display_thread(Display.Print,message, OFF, RIGHT);
 		}
 	}
 };
