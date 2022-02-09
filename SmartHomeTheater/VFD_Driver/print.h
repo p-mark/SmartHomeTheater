@@ -4,36 +4,39 @@
 #include <charset.h>
 
 class display{
-/*Select grid. Case of owerflow back to "0"*/
-public: void jumpGrid(uint8_t index) {
+public: 
+    
+/*Select grid. In case of owerflow back to "0"*/
+void jumpGrid(uint8_t index) 
+{
     gpioWrite(G[grid_index], LOW);
     grid_index = index;	if (grid_index >= GRIDS) grid_index = 0;
     gpioWrite(G[grid_index], HIGH);
 }
 
 /*Select next grid*/
-static void stepGrid() {
+static void stepGrid() 
+{
 	gpioWrite(G[grid_index], LOW);
 	grid_index++;	if (grid_index == GRIDS) grid_index = 0;
 	gpioWrite(G[grid_index], HIGH);
 }
 
 /*Print the character/icon defined by array of segments*/
-void writeGrid(bool character[SEGMENTS])
-{
+void writeGrid(bool character[SEGMENTS]){
 	for (uint8_t i = 0; i < SEGMENTS; i++)
 		gpioWrite(S[i], character[i]);
 }
 
-private:
 /*Transition betwen char and grid*/
 void writeChar(char c) {
 	c -= 33;
-    (c < 96) ? writeGrid(DIGIT[c]) : writeGrid(DIGIT[95]);	
+    (c < 96) ? writeGrid(DIGIT[c]) : writeGrid(DIGIT[96]);	
 }
 
 /*Print a string if there is space*/
-void writeWord(std::string word){
+void writeWord(std::string word)
+{
 	if (word.length() > CHARDIGITS) exit(1);
 
 	for (uint8_t i = 0; i < word.length(); i++)
@@ -43,7 +46,6 @@ void writeWord(std::string word){
 	}
 }
 
-public:
 /*Print aligned text*/
 void writeWord_Aligned(std::string word, uint8_t text_align)
 {
@@ -88,7 +90,7 @@ void writeWord_Aligned(std::string word, uint8_t text_align)
 
 /*Have to cut the wordBuffer to projectable size,
     * then write out the slice,
-    * and repeatedly with shifting through the array*/                           //String shifteléssel jobb lenne
+    * and repeatedly with shifting through the array*/                           //String shifteléssel jobb lenne?
 void writeWord_Animated(std::string word, uint8_t animation){
     std::string wordBuffer, projectonBuffer;
 

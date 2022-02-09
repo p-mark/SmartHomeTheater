@@ -1,10 +1,6 @@
 #include <iostream>
 #include <print.cpp>
-#include <thread>
-
 VFD Display;
-
-std::thread display_thread(Display.Print, "Hello Word!");
 
 /*Basic user interface for terminal control*/
 class UI {
@@ -17,15 +13,9 @@ class UI {
 		std::cout << "\t-l\tLeft\n";
 		std::cout << "\t-r\tRight\n";
 		std::cout << "\t-c\tCenter\n";
+		std::cout << "clear\tClears the display\n";
 		std::cout << "exit\tExit\n";
 		std::cout << "\te\tAlias exit\n";
-	}
-	
-	/*Stop running display*/
-	void flush() {
-		Display.run = false;
-		display_thread.join();
-		Display.run = true;
 	}
 
 	/*Handle user command*/
@@ -39,35 +29,29 @@ class UI {
 		if(input.find(" -a "))
 		{
 			if (input.find(" -c "))
-			{
-				flush();
-				std::thread display_thread(Display.Print,message,ON, CENTER);
+			{	
+				Display.Show(message,ON, CENTER);
 			}
 			else if (input.find(" -l "))
-			{
-				flush();
-				std::thread display_thread(Display.Print,message,ON,LEFT);
+			{	
+				Display.Show(message,ON,LEFT);
 			}
 			else if (input.find(" -r "))
-			{
-				flush();
-				std::thread display_thread(Display.Print,message, ON, RIGHT);
+			{	
+				Display.Show(message, ON, RIGHT);
 			}
 		}
 		else if (input.find(" -c "))
 		{
-			flush();
-			std::thread display_thread(Display.Print,message, OFF, CENTER);
+			Display.Show(message, OFF, CENTER);
 		}
 		else if(input.find(" -l "))
-		{
-			flush();
-			std::thread display_thread(Display.Print,message, OFF, LEFT);
+		{	
+			Display.Show(message, OFF, LEFT);
 		}
 		else if (input.find(" -r "))
 		{
-			flush();
-			std::thread display_thread(Display.Print,message, OFF, RIGHT);
+			Display.Show(message, OFF, RIGHT);
 		}
 	}
 };

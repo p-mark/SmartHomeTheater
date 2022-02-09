@@ -15,19 +15,21 @@ int main()
     {
         std::cin >> input;
 
-        if ((input == "e") || (input == "exit"))
+
+        if (input.find("print "))
+            ui.print(input);
+
+        else if ((input == "e") || (input == "exit"))
         {
-            ui.flush();
+            Display.flush();
             return 0;
         }
         else if (input.find("--help"))
-        {
             ui.help();
-        }
-        else if (input.find("print "))
-        {
-            ui.print(input);
-        }
+
+        else if (input == "clear")
+            Display.flush();
+
         else{std::cout << "Cannot recognise your command :( Maybe try --help";}
     }
 }
