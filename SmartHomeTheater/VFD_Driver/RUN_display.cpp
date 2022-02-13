@@ -1,35 +1,15 @@
-#include <thread>
-#include <ui.h>
+#include <ui.cpp>
 
-UI ui;
-    
-int main() 
-{
-    ini::initialise();
-    
-    SPEAKER_SUB = ON;
-    std::string input = "";
-    std::cout << "print --help for more information" << std::endl;
-
-    while (true)
+namespace VFD_Driver {
+    int main()
     {
-        std::cin >> input;
+        UI ui;
 
+        ui.output.initialise();
+        ui.output.SPEAKER_SUB = ON;
+        ui.output.SPEAKER_FRONT_RIGHT = ON;
+        ui.output.SPEAKER_FRONT_LEFT = ON;
 
-        if (input.find("print "))
-            ui.print(input);
-
-        else if ((input == "e") || (input == "exit"))
-        {
-            Display.flush();
-            return 0;
-        }
-        else if (input.find("--help"))
-            ui.help();
-
-        else if (input == "clear")
-            Display.flush();
-
-        else{std::cout << "Cannot recognise your command :( Maybe try --help";}
+        ui.eventLoop();
     }
 }

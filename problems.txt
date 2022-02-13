@@ -1,5 +1,4 @@
--A charsetet fel kell tölteni rendesen
--inicializálás nincs lefuttatva
+-Nincs időzítés. A write word func. közbe kell iktatni egy szinkronizációs várakoztató funkciót ami a "jelenlegi" threadet altatja a szükséges ideig
 
 -Külön print functon arra az esetre ha char*[8] vagy valaminél hosszabb lenne a megadott string.
 Ha rövidebb akkor text align fixen írja ki a szöveget, ha hosszabb akkor az animáció irányát/fajtáját állíthatjuk vele.
