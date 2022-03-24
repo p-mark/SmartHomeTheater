@@ -8,8 +8,8 @@ namespace VFD_Driver {
 		void print(std::string input);
 		void eventLoop();
 
-		Port output;
-	private:
 		Scene scene;
+	private:
+		std::string input;
 	};
 }

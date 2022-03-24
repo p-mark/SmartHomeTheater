@@ -8,11 +8,12 @@ namespace VFD_Driver {
         void Flush();
 
         Write Display;
-    private:
+        Port output;
+
         std::thread display_thread;
 
         bool run = true;
 
-        void Show(std::string word, uint8_t animate = OFF, uint8_t text_align = CENTER);
+        void Show(std::string word, uint8_t animate, uint8_t text_align);
     };
 }

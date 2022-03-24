@@ -362,3 +362,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/SmartHomeTheater/VFD_Driver/VFD_Driver.sln
+/SmartHomeTheater/VFD_Driver/VFD_Driver.vcxproj

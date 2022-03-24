@@ -7,8 +7,7 @@ namespace VFD_Driver
     {
         gpioWrite(port.G[grid_index], LOW);
         grid_index = index;	if (grid_index >= GRIDS) grid_index = 0;
-        gpioWrite(port.G[grid_index], HIGH)
-            
+        gpioWrite(port.G[grid_index], HIGH);
     }
     
     /*Select next grid*/
@@ -23,6 +22,7 @@ namespace VFD_Driver
     void Write::Grid(bool character[SEGMENTS]) {
         for (uint8_t i = 0; i < SEGMENTS; i++)
             gpioWrite(port.S[i], character[i]);
+        Timer.wait_grid();
     }
 
     /*Transition betwen char and grid*/
@@ -36,11 +36,15 @@ namespace VFD_Driver
     {
         if (word.length() > CHARDIGITS) exit(1);
 
-        for (uint8_t i = 0; i < word.length(); i++)
-        {
-            Write::Char(word[i]);
-            //Wait                                      Itt kell várni a karakter megjelenítésével
-            Write::stepGrid();
+        //Repeat writing out the word to fill 1 sec
+        for (size_t i = 0; i < REFRESH_RATE; i++)
+        {   
+            //Write out the chars one-by-one
+            for (uint8_t i = 0; i < word.length(); i++)
+            {
+                Write::Char(word[i]);
+                Write::stepGrid();
+            }
         }
     }
 
@@ -88,7 +92,7 @@ namespace VFD_Driver
 
     /*Have to cut the wordBuffer to projectable size,
         * then write out the slice,
-        * and repeatedly with shifting through the array*/                           //String shifteléssel jobb lenne?
+        * and repeatedly with shifting through the array*/
     void Write::Word_Animated(std::string word, uint8_t animation) {
         std::string wordBuffer, projectonBuffer;
 

@@ -69,7 +69,7 @@ namespace VFD_Driver {
 			else if ((input == "e") || (input == "exit"))
 			{
 				scene.Flush();
-				return 0;
+				return;
 			}
 			else if (input.find("--help"))
 				help();

@@ -2,11 +2,12 @@
 
 namespace VFD_Driver
 {
-    /*Show text / Play animaton on a new thread*/
+    /*Show text / Play animaton on a new thread*//*Implementing necessary*/
     void Scene::Print(std::string word, uint8_t animate, uint8_t text_align)
     {
-        Scene::Flush();
-        display_thread(Show, word, animate, text_align);
+        //Scene::Flush();
+        //display_thread(Show, word, animate, text_align);
+        Show(word, animate, text_align);    //Skip
     }
 
     /*Stop running display*/
@@ -20,7 +21,7 @@ namespace VFD_Driver
 
     /*Build and project scene with preset icon states
     and given propreties: animation, text alignment*/
-    void Scene::Show(std::string word, uint8_t animate = OFF, uint8_t text_align = CENTER)
+    void Scene::Show(std::string word, uint8_t animate, uint8_t text_align)
     {
         while (run) {
             //Starting with text
@@ -32,7 +33,7 @@ namespace VFD_Driver
 
             //Handle the Icons
             for (uint8_t i = 0; i < ICON_GRIDS; i++)
-                Display.Grid(display_icons[i]);
+                Display.Grid(output.display_icons[i]);
         }
     }
 }

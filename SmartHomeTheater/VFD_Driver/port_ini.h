@@ -1,9 +1,12 @@
-#pragma once							/*User definded port properties*/
+#pragma once							/*User definded display properties*/
 /*********************************************************************************************************************/
 #define GRIDS 12		//Used grids
 #define SEGMENTS 16		//Used segments
-#define CHARDIGITS 10	//Number of digit/character grids
+
+#define CHARDIGITS 10	//Number of digits/character grids
 #define CHARS_BEGIN 0	//"0" when characters digits starting from first grid
+
+#define REFRESH_RATE 144	//Target frequency (Hz)
 /*********************************************************************************************************************/
 
 #define ICON_GRIDS		(GRIDS - CHARDIGITS)
@@ -27,7 +30,7 @@ namespace VFD_Driver {
 /*********************************************************************************************************************/
 
 		/*Define the wiring | Line up the ports*/
-		static uint8_t G[GRIDS] = { 1,2,3,4,5,6,7,8,9,10,11,12 };
+		const uint8_t G[GRIDS] = { 1,2,3,4,5,6,7,8,9,10,11,12 };
 	
 /*
 *												 --a1--	  --a2--
@@ -42,12 +45,12 @@ namespace VFD_Driver {
 */
 	
 //									   a1,a2,b, c, d1,d2,e, f, g1,g2,h, i, j, k, l, m 
-		static uint8_t S[SEGMENTS] = { 21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 };
+		const uint8_t S[SEGMENTS] = { 21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 };
 /*********************************************************************************************************************/
 
 		/*Unique icons light status list*/
 		bool display_icons[ICON_GRIDS][SEGMENTS];
 
-		static void initialise()
+		static void initialise();
 	};
 }

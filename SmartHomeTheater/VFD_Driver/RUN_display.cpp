@@ -5,10 +5,13 @@ namespace VFD_Driver {
     {
         UI ui;
 
-        ui.output.initialise();
-        ui.output.SPEAKER_SUB = ON;
-        ui.output.SPEAKER_FRONT_RIGHT = ON;
-        ui.output.SPEAKER_FRONT_LEFT = ON;
+        ui.scene.output.initialise();
+
+        //Icon debug
+#define OUTPUT ui.scene.output
+        OUTPUT.SPEAKER_SUB = ON;
+        OUTPUT.SPEAKER_FRONT_RIGHT = ON;
+        OUTPUT.SPEAKER_FRONT_LEFT = ON;
 
         ui.eventLoop();
     }
